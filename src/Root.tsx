@@ -67,6 +67,7 @@ export const RemotionRoot: React.FC = () => {
             layout: "blur" as const,
             cropFocus: 50,
             partLabel: clips.length > 1 ? `Part ${i + 1}/${clips.length}` : "",
+            showCaptions: true,
           }}
         />
       ))}

@@ -39,7 +39,7 @@ npx remotion upgrade
 
 ## TikTok clips
 
-Turn a long 16:9 video into vertical 1080x1920 clips. Each clip gets a hook title, a "Part X/N" badge and a progress bar.
+Turn a long 16:9 video into vertical 1080x1920 clips. Each clip gets burned-in captions, a hook title, a "Part X/N" badge and a progress bar.
 
 1. Download the source video to `public/source.mp4`. This needs `yt-dlp` (`pip install yt-dlp`). You can also copy any mp4 there yourself.
 
@@ -47,7 +47,15 @@ Turn a long 16:9 video into vertical 1080x1920 clips. Each clip gets a hook titl
    npm run clips:fetch -- "https://youtu.be/K7LeSv9RzVw"
    ```
 
-2. Split it into clips. The default is 60 seconds each; pass another length if you want one:
+2. Auto-caption it (optional). This needs `pip install faster-whisper`. The Whisper model is downloaded from huggingface.co the first time. Pass a model size and a language if you want, e.g. `-- medium en`:
+
+   ```console
+   npm run clips:captions
+   ```
+
+   This writes word-level timings to `src/TikTok/captions.json`. Every clip then shows TikTok-style captions with the spoken word highlighted. To turn them off, pass `--props='{"showCaptions":false}'` when rendering.
+
+3. Split it into clips. The default is 60 seconds each; pass another length if you want one:
 
    ```console
    npm run clips:split -- 45
@@ -55,7 +63,7 @@ Turn a long 16:9 video into vertical 1080x1920 clips. Each clip gets a hook titl
 
    Then edit `src/TikTok/clips.json` to keep only the best moments. Change the `start`/`end` seconds and add a hook `title` to each clip. Preview them with `npm run dev`.
 
-3. Render every clip to `out/clips/<id>.mp4`:
+4. Render every clip to `out/clips/<id>.mp4`:
 
    ```console
    npm run clips:render

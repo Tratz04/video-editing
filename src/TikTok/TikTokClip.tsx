@@ -8,6 +8,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { Captions } from "./Captions";
 
 export const tikTokClipSchema = z.object({
   src: z.string(),
@@ -20,6 +21,8 @@ export const tikTokClipSchema = z.object({
   // Horizontal focus for "crop", 0 = left edge, 50 = center, 100 = right edge.
   cropFocus: z.number().min(0).max(100),
   partLabel: z.string(),
+  // Burn in word-by-word captions from src/TikTok/captions.json.
+  showCaptions: z.boolean(),
 });
 
 export type TikTokClipProps = z.infer<typeof tikTokClipSchema>;
@@ -82,6 +85,7 @@ export const TikTokClip: React.FC<TikTokClipProps> = ({
   layout,
   cropFocus,
   partLabel,
+  showCaptions,
 }) => {
   const { fps } = useVideoConfig();
   const videoSrc = src.startsWith("http") ? src : staticFile(src);
@@ -125,6 +129,7 @@ export const TikTokClip: React.FC<TikTokClipProps> = ({
         </AbsoluteFill>
       )}
       <Hook title={title} partLabel={partLabel} />
+      {showCaptions ? <Captions startSec={start} /> : null}
       <ProgressBar />
     </AbsoluteFill>
   );
