@@ -2,6 +2,10 @@ import "./index.css";
 import { Composition } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
+import { clips, SOURCE_VIDEO } from "./TikTok/clips";
+import { TikTokClip, tikTokClipSchema } from "./TikTok/TikTokClip";
+
+const TIKTOK_FPS = 30;
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -40,6 +44,32 @@ export const RemotionRoot: React.FC = () => {
           logoColor2: "#86A8E7",
         }}
       />
+
+      {/* One vertical 1080x1920 composition per entry in src/TikTok/clips.json */}
+      {clips.map((clip, i) => (
+        <Composition
+          key={clip.id}
+          id={clip.id}
+          component={TikTokClip}
+          schema={tikTokClipSchema}
+          durationInFrames={Math.max(
+            1,
+            Math.round((clip.end - clip.start) * TIKTOK_FPS),
+          )}
+          fps={TIKTOK_FPS}
+          width={1080}
+          height={1920}
+          defaultProps={{
+            src: SOURCE_VIDEO,
+            start: clip.start,
+            end: clip.end,
+            title: clip.title,
+            layout: "blur" as const,
+            cropFocus: 50,
+            partLabel: clips.length > 1 ? `Part ${i + 1}/${clips.length}` : "",
+          }}
+        />
+      ))}
     </>
   );
 };

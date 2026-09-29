@@ -27,7 +27,10 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "clips:fetch": "bash scripts/fetch-source.sh",
+    "clips:split": "node scripts/split-clips.mjs",
+    "clips:render": "node scripts/render-clips.mjs"
   },
   "sideEffects": [
     "*.css"

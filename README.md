@@ -37,6 +37,32 @@ npx remotion render
 npx remotion upgrade
 ```
 
+## TikTok clips
+
+Turn a long 16:9 video into vertical 1080x1920 clips. Each clip gets a hook title, a "Part X/N" badge and a progress bar.
+
+1. Download the source video to `public/source.mp4`. This needs `yt-dlp` (`pip install yt-dlp`). You can also copy any mp4 there yourself.
+
+   ```console
+   npm run clips:fetch -- "https://youtu.be/K7LeSv9RzVw"
+   ```
+
+2. Split it into clips. The default is 60 seconds each; pass another length if you want one:
+
+   ```console
+   npm run clips:split -- 45
+   ```
+
+   Then edit `src/TikTok/clips.json` to keep only the best moments. Change the `start`/`end` seconds and add a hook `title` to each clip. Preview them with `npm run dev`.
+
+3. Render every clip to `out/clips/<id>.mp4`:
+
+   ```console
+   npm run clips:render
+   ```
+
+   By default the whole frame sits on a blurred background. To fill the screen by cropping the sides instead, run `npm run clips:render -- --props='{"layout":"crop","cropFocus":50}'`.
+
 ## Docs
 
 Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
